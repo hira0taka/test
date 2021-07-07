@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .board {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        width: 460px;
+        height: 460px;
+        border: 1px solid black;
+        background-color: aliceblue;
+    }
+    .board div {
+        height: 90px;
+        width: 90px;
+        border: 1px solid black;
+        line-height: 90px;
+        font-size: 45px;
+        text-align: center;
+    }
+    .check {
+        font-size: 50px;
+        color: white;
+        background-color: deepskyblue;
+    }
+    .win {
+        height: 30px;
+        width: 90px;
+        font-size: 70px;
+        color: black;
+    }
+    .center {
+        font-size: 50px;
+        color: white;
+        background-color: deepskyblue;
+    }
+</style>
+<body>
+    <div class="board">
+    </div>
+</body>
+<script>
+    const checkList = new Array(25).fill(0);
+    for (let i = 0; i < 25; i++) {
+        // 5×5のマスを作成
+        const masu = document.createElement("div");
+        // クリックしたら★
+        masu.addEventListener("click", function () {
+            masu.setAttribute("class", "check");
+            masu.textContent = "★";
+            checkList[i] = "★ "; 
+        })
+        // switch文でもよし
+            // 1列目1～15をランダム表示
+        if (i % 5 === 0) {
+            masu.textContent = Math.floor(Math.random() * 15 + 1);
+            // 2列目16～30をランダム表示
+        } else if (i % 5 === 1) {
+            masu.textContent = Math.floor(Math.random() * 15 + 16);
+            // 3列目31～45をランダム表示
+        } else if (i % 5 === 2) {
+            masu.textContent = Math.floor(Math.random() * 15 + 31);
+            // 1列目46～60をランダム表示
+        } else if (i % 5 === 3) {
+            masu.textContent = Math.floor(Math.random() * 15 + 46);
+            // 1列目61～75をランダム表示
+        } else {
+            masu.textContent = Math.floor(Math.random() * 15 + 61);
+        }
+        document.querySelector(".board").appendChild(masu);
+    }
+    document.querySelector(".board").addEventListener("click", function () {
+    // たて
+    columnA = [checkList[0], checkList[5], checkList[10], checkList[15], checkList[20]]
+    columnB = [checkList[1], checkList[6], checkList[11], checkList[16], checkList[21]]
+    columnC = [checkList[2], checkList[7], checkList[12], checkList[17], checkList[22]]
+    columnD = [checkList[3], checkList[8], checkList[13], checkList[18], checkList[23]]
+    columnE = [checkList[4], checkList[9], checkList[14], checkList[19], checkList[24]]
+    // よこ
+    rowA = [checkList[0], checkList[1], checkList[2], checkList[3], checkList[4]]
+    rowB = [checkList[5], checkList[6], checkList[7], checkList[8], checkList[9]]
+    rowC = [checkList[10], checkList[11], checkList[12], checkList[13], checkList[14]]
+    rowD = [checkList[15], checkList[16], checkList[17], checkList[18], checkList[19]]
+    rowE = [checkList[20], checkList[21], checkList[22], checkList[23], checkList[24]]
+    // ななめ
+    diagonalA = [checkList[0], checkList[6], checkList[12], checkList[18], checkList[24]]
+    diagonalB = [checkList[4], checkList[8], checkList[12], checkList[16], checkList[20]]
+    //checkArrayに判定配列（columnA etc.）が入る
+    function checkBingo(checkArray) {
+        if (checkArray.every(n => n === "★")) {
+            checkList.fill("1");
+            const win = document.createElement("div");
+            win.textContent = "Bingo!!";
+            win.setAttribute("class", "win");
+            document.body.appendChild(win);
+        }
+    }
+    checkBingo(columnA);
+    checkBingo(columnB);
+    checkBingo(columnC);
+    checkBingo(columnD);
+    checkBingo(columnE);
+    checkBingo(rowA);
+    checkBingo(rowB);
+    checkBingo(rowC);
+    checkBingo(rowD);
+    checkBingo(rowE);
+    checkBingo(diagonalA);
+    checkBingo(diagonalB);
+    })
+</script>
+</html>
